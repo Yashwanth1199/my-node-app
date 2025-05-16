@@ -10,6 +10,11 @@ const PORT = process.env.PORT || 3000;
 // Serve static HTML
 app.use(express.static("public"));
 
+// Route root (/) to upload.html
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'upload.html'));
+});
+
 // Temp upload handler
 const upload = multer({ dest: "uploads/" });
 
