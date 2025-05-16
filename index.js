@@ -8,7 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Serve static HTML
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Route root (/) to upload.html
 app.get('/', (req, res) => {
