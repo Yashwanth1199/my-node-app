@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Excel to JSON Converter</title>
+</head>
+<body>
+  <h1>Upload Excel File (.xls/.xlsx)</h1>
+  <form id="uploadForm">
+    <input type="file" name="file" accept=".xls,.xlsx" required />
+    <button type="submit">Convert</button>
+  </form>
+
+  <a id="downloadLink" style="display: none;" download="converted.json">Download JSON</a>
+
+  <script>
+    const form = document.getElementById("uploadForm");
+    const downloadLink = document.getElementById("downloadLink");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const response = await fetch("/upload", {
+        method: "POST",
+        body: formData
+      });
+
+      const result = await response.json();
+      const jsonString = JSON.stringify(result.json, null, 2);
+
+      // Create Blob + download link
+      const blob = new Blob([jsonString], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      downloadLink.href = url;
+      downloadLink.style.display = "inline-block";
+    });
+  </script>
+</body>
+</html>
